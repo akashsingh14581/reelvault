@@ -1,0 +1,12 @@
+import mongoose from 'mongoose';
+
+const userSchema = new mongoose.Schema(
+  {
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true, maxlength: 200 },
+    name: { type: String, default: 'Owner', maxlength: 100 },
+    passwordHash: { type: String, required: true },
+  },
+  { timestamps: true },
+);
+
+export const User = mongoose.models.User || mongoose.model('User', userSchema);

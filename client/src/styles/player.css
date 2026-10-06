@@ -1,0 +1,73 @@
+.pl { position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 80vh; background: #000; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; touch-action: manipulation; outline-offset: 2px; }
+.pl.is-fs { max-height: none; border-radius: 0; border: 0; aspect-ratio: auto; height: 100%; }
+.pl-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.pl-surface { position: absolute; inset: 0; cursor: pointer; }
+.pl.hide .pl-surface { cursor: none; }
+
+.pl-center { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; pointer-events: none; color: var(--text); }
+.pl-center svg { width: 44px; height: 44px; color: var(--accent); }
+.pl-buffer span { font-size: 0.9rem; padding: 4px 12px; border-radius: 999px; background: rgba(0,0,0,.55); }
+.pl-flash { position: absolute; top: 42%; left: 50%; transform: translateX(-50%); padding: 8px 18px; border-radius: 999px; background: rgba(0,0,0,.6); font-weight: 700; pointer-events: none; animation: fade-in .15s ease both; }
+
+.pl-big { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(64px, 12vw, 96px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); background: rgba(10,11,16,.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: #fff; display: grid; place-items: center; box-shadow: 0 0 40px rgba(242,180,90,.25); transition: transform .2s var(--ease), background .2s; }
+.pl-big:hover { transform: translate(-50%, -50%) scale(1.06); background: rgba(242,180,90,.3); }
+.pl-big svg { width: 40%; height: 40%; margin-left: 5%; }
+
+.pl-error { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 8px; text-align: center; padding: 20px; background: rgba(5,6,9,.88); }
+.pl-error > svg { width: 38px; height: 38px; color: var(--accent); }
+.pl-error strong { font-size: 1.2rem; }
+.pl-error p { color: var(--text-2); max-width: 36ch; margin-bottom: 8px; }
+
+.pl-controls { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 46px clamp(10px, 2.4vw, 20px) calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(0,0,0,.88), rgba(0,0,0,.5) 55%, transparent); transition: opacity .3s ease, transform .3s var(--ease); display: grid; gap: 4px; }
+.pl.hide .pl-controls { opacity: 0; transform: translateY(8px); pointer-events: none; }
+
+.pl-timeline { display: flex; align-items: center; gap: 12px; }
+.pl-time { font-family: var(--mono); font-size: 0.8rem; color: #e7e4dc; min-width: 40px; font-variant-numeric: tabular-nums; }
+.pl-time:last-child { text-align: right; }
+.pl-bar { position: relative; flex: 1; height: 28px; cursor: pointer; touch-action: none; display: flex; align-items: center; }
+.pl-bar::before { content: ''; position: absolute; left: 0; right: 0; height: 4px; border-radius: 4px; background: rgba(255,255,255,.2); transition: height .15s; }
+.pl-bar:hover::before, .pl-bar:focus-visible::before { height: 6px; }
+.pl-buf, .pl-fill { position: absolute; left: 0; height: 4px; border-radius: 4px; pointer-events: none; transition: height .15s; }
+.pl-bar:hover .pl-buf, .pl-bar:hover .pl-fill, .pl-bar:focus-visible .pl-buf, .pl-bar:focus-visible .pl-fill { height: 6px; }
+.pl-buf { background: rgba(255,255,255,.32); }
+.pl-fill { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+.pl-thumb { position: absolute; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(242,180,90,.35); transform: scale(0); transition: transform .15s; pointer-events: none; }
+.pl-bar:hover .pl-thumb, .pl-bar:focus-visible .pl-thumb { transform: scale(1); }
+
+.pl-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.pl-group { display: flex; align-items: center; gap: 2px; }
+.pl-btn { min-width: 44px; height: 44px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; background: transparent; color: #fff; transition: background .15s, transform .15s; -webkit-tap-highlight-color: transparent; }
+.pl-btn:hover:not(:disabled) { background: rgba(255,255,255,.14); }
+.pl-btn:active:not(:disabled) { transform: scale(.94); }
+.pl-btn svg { width: 22px; height: 22px; }
+.pl-text { font-weight: 700; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.pl-download { padding: 0 14px; font-weight: 600; font-size: 0.9rem; background: rgba(255,255,255,.12); margin-left: 4px; }
+.pl-vol { display: flex; align-items: center; }
+.pl-range { width: 0; opacity: 0; transition: width .2s var(--ease), opacity .2s; accent-color: var(--accent); height: 28px; margin: 0; }
+.pl-vol:hover .pl-range, .pl-vol:focus-within .pl-range { width: 84px; opacity: 1; margin-right: 8px; }
+
+.pl-menu-wrap { position: relative; }
+.pl-menu { position: absolute; bottom: 52px; right: 0; min-width: 130px; padding: 6px; border-radius: 14px; background: rgba(16,18,26,.96); border: 1px solid var(--line-strong); box-shadow: var(--shadow); display: grid; }
+.pl-menu button { min-height: 44px; text-align: left; padding: 0 14px; background: transparent; border: 0; border-radius: 10px; color: var(--text); }
+.pl-menu button:hover { background: var(--surface-2); }
+.pl-menu button.on { color: var(--accent); font-weight: 700; }
+
+/* Touch devices: no hover-volume slider (system volume is used), bigger targets. */
+@media (hover: none), (max-width: 640px) {
+  .pl-range { display: none; }
+  .pl-btn { min-width: 48px; height: 48px; }
+  .pl-btn svg { width: 24px; height: 24px; }
+  .pl-bar { height: 36px; }
+  .pl-thumb { transform: scale(1); }
+}
+@media (max-width: 520px) {
+  .hide-xs { display: none; }
+  .pl { border-radius: 0; margin-inline: calc(var(--gutter) * -1); width: calc(100% + var(--gutter) * 2); border-inline: 0; }
+  .pl-time { font-size: 0.74rem; min-width: 34px; }
+  .pl-download { padding: 0 10px; }
+}
+/* Landscape phones: use the full screen height. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .pl { max-height: calc(100dvh - 24px); }
+  .pl-controls { padding-top: 28px; }
+}
